@@ -46,20 +46,41 @@ class Map:
         pass
 
     def get_danger_radius(self, enemy_type: str) -> int:
+        base_radius = {ORC:1, URUK:2, NAZGUL:1, WATCHTOWER:2}
+        r = base_radius.get(enemy_type, 0)
 
-        pass
+        if self.coat_on:
+            if enemy_type in (ORC, URUK):
+                r = max(0, r - 1)
+            elif enemy_type == NAZGUL:
+                r = 1
+
+        if self.ring_on:
+            if enemy_type in [ORC, URUK]:
+                r = max(0, r - 1)
+            elif enemy_type in [NAZGUL, WATCHTOWER]:
+                r += 1
+
+        return r            
+
 
     def is_in_bounds(self, x: int, y: int) -> bool:
-        pass
+        return 0 <= x < GRID_SIZE and 0 <= y < GRID_SIZE
 
     def is_safe(self, x: int, y: int) -> bool:
         pass
 
     def get_neighbors(self, x: int, y: int) -> List[Position]:
-        pass
+        neighbors = []
+
+        for dx, dy in DIRECTIONS:
+            nx, ny = x + dx, y + dy
+            if self.is_in_bounds(nx, ny):
+                neighbors.append(Position(nx, ny))
+        return neighbors
 
     def manhattan(self, a: Position, b: Position) -> int:
-        pass
+        return abs(a.x - b.x) + abs(a.y - b.y)
 
     def print_map(self) -> None:
         pass
