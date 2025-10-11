@@ -43,7 +43,31 @@ class Map:
 
     def mark_danger_zones(self) -> None:
 
-        pass
+        for i in range(GRID_SIZE):
+            for j in range(GRID_SIZE):
+                if self.grid[i][j] == DANGER:
+                    self.grid[i][j] = EMPTY
+
+        for enemy in self.enemies:
+            e_type = enemy["type"]
+            ex, ey = enemy["pos"].x, enemy["pos"].y
+            radius = self.get_danger_radius(e_type)
+
+            for dx in range(-radius, radius + 1):
+                for dy in range(-radius, radius + 1):
+                    nx, ny = ex + dx, ey + dy
+
+                    if dx == 0 and dy == 0:
+                        continue
+
+                    if not self.is_in_bounds(nx, ny):
+                        continue
+
+                    if self.grid[nx][ny] in [GOLLUM, MOUNT_DOOM, MITHRIL, ORC, URUK, NAZGUL, WATCHTOWER]:
+                        continue
+
+                    self.grid[nx][ny] = DANGER        
+
 
     def get_danger_radius(self, enemy_type: str) -> int:
         base_radius = {ORC:1, URUK:2, NAZGUL:1, WATCHTOWER:2}
