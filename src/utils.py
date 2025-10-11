@@ -107,7 +107,15 @@ class Map:
         return abs(a.x - b.x) + abs(a.y - b.y)
 
     def print_map(self) -> None:
-        pass
+        """
+        Print the current 13×13 map in the console.
+        Each cell shows its current symbol (., P, O, G, etc.).
+        """
+        print("    " + " ".join(f"{j:2}" for j in range(GRID_SIZE)))
+        print("   " + "---" * GRID_SIZE)
+        for i in range(GRID_SIZE):
+            row = " ".join(f"{self.grid[i][j]:2}" for j in range(GRID_SIZE))
+            print(f"{i:2} | {row}")
 
 
 def apply_ring_effects(map_obj: Map) -> None:
