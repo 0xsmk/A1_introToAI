@@ -38,8 +38,28 @@ class Map:
         self.mithril: Optional[Position] = None
 
     def update_perception(self, perception_data: List[Tuple[str, int, int]]) -> None:
+        for symbol, x, y in perception_data:
+            if not self.is_in_bounds(x, y):
+                continue
+            self.grid[x][y] = symbol
 
-        pass
+            if symbol == GOLLUM:
+                self.gollum = Position(x, y)
+            elif symbol == MOUNT_DOOM:
+                self.mount_doom = Position(x, y)
+            elif symbol == MITHRIL:
+                self.mithril = Position(x, y)
+
+            elif symbol in [ORC, URUK, NAZGUL, WATCHTOWER]:
+                already_known = any(
+                    e["pos"].x == x and e["pos"].y == y and e["type"] == symbol
+                    for e in self.enemies
+                )
+                if not already_known:
+                    self.enemies.append({"type": symbol, "pos": Position(x, y)})
+        self.mark_danger_zones()
+        print("Enemies list:", [(e["type"], e["pos"].x, e["pos"].y) for e in self.enemies])
+
 
     def mark_danger_zones(self) -> None:
 
