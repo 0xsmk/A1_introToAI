@@ -15,7 +15,25 @@ class BacktrackingAgent:
 
     def observe(self):
         try:
-            n = int(sys.stdin.readline().strip())
+            line = sys.stdin.readline()
+            if not line:
+                return  
+
+            line = line.strip()
+
+            if line.startswith("My precious! Mount Doom is"):
+                parts = line.split()
+                if len(parts) >= 6:
+                    mx, my = int(parts[-2]), int(parts[-1])
+                    self.map.mount_doom = Position(mx, my)
+                    self.has_gollum = True
+                return
+
+            try:
+                n = int(line)
+            except ValueError:
+                return 
+
             perception_data = []
             for _ in range(n):
                 parts = sys.stdin.readline().strip().split()
@@ -28,15 +46,10 @@ class BacktrackingAgent:
 
             if self.map.mithril and (self.map.mithril.x, self.map.mithril.y) == (self.current_pos.x, self.current_pos.y):
                 apply_mithril_effects(self.map)
-
-            if self.map.gollum and not self.has_gollum:
-                self.has_gollum = True
-                print(f"My precious! Mount Doom is {self.map.mount_doom.x} {self.map.mount_doom.y}", flush=True)
-
         except Exception as e:
             print("Observation error:", e, file=sys.stderr)
 
-    # ------------------------------------------------------------
+
     def decide(self):
         if not self.has_gollum and self.map.gollum:
             self.goal = self.map.gollum
