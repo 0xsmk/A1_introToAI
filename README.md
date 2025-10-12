@@ -58,10 +58,10 @@ The goal:
 
 Run each module independently without the official interactor.
 
-python3 -m tests.test_danger_zones
-python3 -m tests.test_full_map_update
-python3 -m tests.test_backtracking_agent_offline
-python3 -m tests.test_astar_agent_offline
+- python3 -m tests.test_danger_zones
+- python3 -m tests.test_full_map_update
+- python3 -m tests.test_backtracking_agent_offline
+- python3 -m tests.test_astar_agent_offline
 
 ---
 
