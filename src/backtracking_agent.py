@@ -53,20 +53,23 @@ class BacktrackingAgent:
     def decide(self):
         if not self.has_gollum and self.map.gollum:
             self.goal = self.map.gollum
-        elif self.has_gollum and self.map.mount_doom:
-            self.goal = self.map.mount_doom
+        elif self.has_gollum:
+            if self.map.mount_doom:
+                self.goal = self.map.mount_doom
+            else:
+                return None  
 
         self.visited.add((self.current_pos.x, self.current_pos.y))
 
         if self.goal and (self.current_pos.x, self.current_pos.y) == (self.goal.x, self.goal.y):
             if not self.has_gollum:
                 self.has_gollum = True
-                self.goal = self.map.mount_doom
-                return None  
+                return None
             else:
                 return ("end", self.path_length)
 
         neighbors = self.map.get_neighbors(self.current_pos.x, self.current_pos.y)
+
         for neighbor in neighbors:
             if (neighbor.x, neighbor.y) not in self.visited:
                 self.path_stack.append(self.current_pos)
