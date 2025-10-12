@@ -139,10 +139,9 @@ class Map:
 
 
 def apply_ring_effects(map_obj: Map) -> None:
-
-    pass
-
+    map_obj.ring_on = not map_obj.ring_on
+    map_obj.mark_danger_zones()
 
 def apply_mithril_effects(map_obj: Map) -> None:
-
-    pass
+    map_obj.coat_on = True
+    map_obj.mark_danger_zones()
