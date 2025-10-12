@@ -53,25 +53,6 @@ The goal:
 
 ---
 
-## Structure
-
-A1_IntroToAI/
-├── src/
-│   ├── utils.py
-│   ├── backtracking_agent.py
-│   ├── astar_agent.py
-│   └── init.py
-├── tests/
-│   ├── test_danger_zones.py
-│   ├── test_full_map_update.py
-│   ├── test_backtracking_agent_offline.py
-│   ├── test_agent_goal_switch.py
-│   ├── test_backtracking_observe_special.py
-│   ├── test_astar_agent_offline.py
-│   └── init.py
-└── README.md
-
----
 
 ## Running Tests
 
