@@ -42,7 +42,23 @@ struct Cell{
 Cell grid[SIZE][SIZE];
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
+    
+    cin >> perceptionVariant;
+    cin >> gollum.first >> gollum.second;
+
+    readPerception();
+
+    backtrack(0, 0);
+
+    if (!foundMount) {
+        cout << "e -1" << endl;
+        cout.flush();
+    }
+
+    return 0;
 }
 
 
@@ -183,3 +199,34 @@ void removeRing() {
     }
 }
 
+bool backtrack(int x, int y) {
+    if(foundMount && x == mountDoom.first && y == mountDoom.second) {
+        cout << "e " << pathLen << endl; 
+        cout.flush();
+        return true;
+    }
+
+    grid[x][y].visited = true;
+
+    for( int i = 0; i < 4; i++){
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+
+        if(inBounds(nx, ny) && !grid[nx][ny].visited && grid[nx][ny].safe){
+            moveTo(nx, ny);
+            pathLen++;
+
+            if (foundGollum && !foundMount && mountDoom.first != -1){
+                foundMount = true;
+            }
+            if(backtrack(nx, ny)){
+                return true;
+            }
+            else{
+                moveTo(x, y);
+                pathLen--;
+            }
+        }
+    }
+    return false;
+}
